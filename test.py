@@ -14,11 +14,13 @@ def driver():
     options = Options()
     options.add_argument("--headless")
 
-    firefox_binary_path = "/usr/bin/firefox" 
-    options.binary_location = firefox_binary_path
+    # firefox_binary_path = "/usr/bin/firefox" 
+    # options.binary_location = firefox_binary_path
 
-    service = Service("/usr/local/bin/geckodriver") 
-    driver = webdriver.Firefox(service=service, options=options)
+    # service = Service("/usr/local/bin/geckodriver") 
+    driver = webdriver.Firefox(
+        # service=service,
+        options=options)
     driver.get("http://127.0.0.1:2000")
 
     yield driver
