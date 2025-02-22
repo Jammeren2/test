@@ -23,17 +23,21 @@ def driver():
     options = Options()
     options.add_argument("--headless")
     options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
+    options.add_argument('--disable-gpu')
+    options.add_argument('--window-size=1920,1080')
     options.log_level = "trace"
-    options.set_preference("webdriver.log.file", "logfile.log")
+    options.set_preference("webdriver.log.file", "/tmp/geckodriver.log")
 
     service = Service(GeckoDriverManager().install())
 
     driver = webdriver.Firefox(service=service, options=options)
+    driver.set_page_load_timeout(30)
     driver.get("http://127.0.0.1:2000")
 
     yield driver
     driver.quit()
-
+    
 @pytest.mark.parametrize("num1, num2, operation, expected", [
     ("5", "3", "+", "8.0"),
     ("10", "2", "-", "8.0"),
