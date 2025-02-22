@@ -13,6 +13,9 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.firefox.service import Service
 from webdriver_manager.firefox import GeckoDriverManager
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import logging
 import os
 
 @pytest.fixture
@@ -20,7 +23,9 @@ def driver():
     options = Options()
     options.add_argument("--headless")
     options.add_argument('--no-sandbox')
-    
+    options.log_level = "trace"
+    options.set_preference("webdriver.log.file", "logfile.log")
+
     service = Service(GeckoDriverManager().install())
 
     driver = webdriver.Firefox(service=service, options=options)
@@ -41,7 +46,7 @@ def driver():
     ("3", "5", "max", "5.0"),
     ("5", "3", "min", "3.0"),
     ("3", "5", "min", "3.0"),
-    ("5", "0", "/", "Ошибка: Деление на ноль")  
+    ("5", "0", "/", "Ошибка: Деление на ноль")
 ])
 def test_calculator_operations(driver, num1, num2, operation, expected):
     num1_field = driver.find_element(By.NAME, "num1")
@@ -56,7 +61,11 @@ def test_calculator_operations(driver, num1, num2, operation, expected):
     operation_select.select_by_value(operation)
     submit_button.click()
 
-    time.sleep(1)
+    # Wait for result to appear
+    result_element = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.TAG_NAME, "h3"))
+    )
 
-    result_text = driver.find_element(By.TAG_NAME, "h3").text
+    result_text = result_element.text
+    print(driver.page_source)  # Debugging output
     assert f"Результат: {expected}" in result_text
