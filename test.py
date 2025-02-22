@@ -4,15 +4,23 @@ from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.firefox.service import Service
+from selenium.webdriver.firefox.options import Options
+
 import time
 
 
-@pytest.fixture
 def driver():
-    options = FirefoxOptions()
+    options = Options()
     options.add_argument("--headless")
-    driver = webdriver.Firefox(options=options)
+
+    firefox_binary_path = "/usr/bin/firefox" 
+    options.binary_location = firefox_binary_path
+
+    service = Service("/usr/local/bin/geckodriver") 
+    driver = webdriver.Firefox(service=service, options=options)
     driver.get("http://127.0.0.1:2000")
+
     yield driver
     driver.quit()
 
