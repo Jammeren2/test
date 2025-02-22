@@ -12,7 +12,7 @@ def driver():
     options = FirefoxOptions()
     options.add_argument("--headless")
     driver = webdriver.Firefox(options=options)
-    driver.get("http://127.0.0.1:101")
+    driver.get("http://127.0.0.1:2000")
     yield driver
     driver.quit()
 
