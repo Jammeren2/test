@@ -18,8 +18,9 @@ import os
 @pytest.fixture
 def driver():
     options = Options()
-    options.add_argument("-headless")
-
+    options.add_argument("--headless")
+    options.add_argument('--no-sandbox')
+    
     service = Service(GeckoDriverManager().install())
 
     driver = webdriver.Firefox(service=service, options=options)
