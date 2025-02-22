@@ -7,19 +7,31 @@ from selenium.webdriver.support.ui import Select
 import time
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.firefox.options import Options
-
+import pytest
+from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.firefox.service import Service
+import os
 
 @pytest.fixture
 def driver():
     options = Options()
     options.add_argument("--headless")
 
-    # firefox_binary_path = "/usr/bin/firefox" 
-    # options.binary_location = firefox_binary_path
+    # Specify the path to the Firefox binary for Debian
+    firefox_binary_path = "/usr/bin/firefox-esr"
+    if not os.path.exists(firefox_binary_path):
+        raise FileNotFoundError(f"Firefox executable not found at {firefox_binary_path}")
+    options.binary_location = firefox_binary_path
 
-    # service = Service("/usr/local/bin/geckodriver") 
+    # Specify the path to geckodriver for Debian
+    geckodriver_path = "/usr/local/bin/geckodriver"
+    if not os.path.exists(geckodriver_path):
+        raise FileNotFoundError(f"Geckodriver not found at {geckodriver_path}")
+    service = Service(geckodriver_path)
+
     driver = webdriver.Firefox(
-        # service=service,
+        service=service,
         options=options)
     driver.get("http://127.0.0.1:2000")
 
