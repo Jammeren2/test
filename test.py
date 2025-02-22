@@ -4,12 +4,12 @@ from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
+import time
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.firefox.options import Options
 
-import time
 
-
+@pytest.fixture
 def driver():
     options = Options()
     options.add_argument("--headless")
