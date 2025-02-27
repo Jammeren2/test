@@ -17,6 +17,9 @@ def driver():
     options.add_argument('--headless')
     options.add_argument('--no-sandbox')
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    driver.set_page_load_timeout(30)
+    driver.get("http://127.0.0.1:2000")
+
     yield driver
     driver.quit()
     
