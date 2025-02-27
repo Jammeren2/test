@@ -20,7 +20,7 @@ def driver():
     driver.set_page_load_timeout(30)
     driver.get("http://127.0.0.1:2000")
 
-    yield driver
+    yield driver # provide the fixture value
     driver.quit()
     
 @pytest.mark.parametrize("num1, num2, operation, expected", [
