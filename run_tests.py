@@ -4,7 +4,7 @@ import csv
 import threading
 
 # Количество параллельных процессов для тестирования
-process_counts = [200]
+process_counts = [25]
 
 results = []
 

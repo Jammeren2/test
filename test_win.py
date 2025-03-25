@@ -11,7 +11,7 @@ def driver():
     options.add_argument('--headless')
     options.add_argument('--no-sandbox')
     driver = webdriver.Chrome(options=options)
-    driver.get("http://192.168.3.23:2000")
+    driver.get("http://37.193.168.134:2000")
     yield driver
     driver.quit()
 
